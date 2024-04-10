@@ -56,6 +56,7 @@ contract ZkEVMWrapperTest is Test {
         uint256 privKey,
         uint256 tokenAmount,
         uint256 etherAmount,
+        uint32 destinationNetwork,
         address destination,
         uint256 deadline
     ) external payable {
@@ -81,7 +82,7 @@ contract ZkEVMWrapperTest is Test {
         (uint8 v, bytes32 r, bytes32 s) = vm.sign(privKey, digest);
         wrapper.deposit{value: etherAmount}(
             IERC20(token),
-            1,
+            destinationNetwork,
             destination,
             tokenAmount,
             deadline,
@@ -97,6 +98,7 @@ contract ZkEVMWrapperTest is Test {
         uint256 privKey,
         uint256 tokenAmount,
         uint256 etherAmount,
+        uint32 destinationNetwork,
         address destination,
         uint256 expiry
     ) external payable {
@@ -123,7 +125,7 @@ contract ZkEVMWrapperTest is Test {
         wrapper.deposit{value: etherAmount}(
             IDai(address(dai)),
             tokenAmount,
-            1,
+            destinationNetwork,
             destination,
             0,
             expiry,
