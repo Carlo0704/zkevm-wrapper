@@ -19,10 +19,11 @@ Then,
 * Call the appropriate `deposit()` function on the wrapper contract with the ether, amount of ERC-20 tokens (and signature, if any) that you want to transfer to ZkEVM
 
 ## Deployment addresses
-| Network | Address | Etherscan link |
-| ------- | ------- | -------------- |
-| Ethereum mainnet | `0x047E0b64743071b897A6177F1796E98b4C3f344E` | https://etherscan.io/address/0x047e0b64743071b897a6177f1796e98b4c3f344e |
-| Testnet (Goerli) | `0xDb5328c50B166545d1e830BB509944d4B98CBb23` | https://goerli.etherscan.io/address/0xDb5328c50B166545d1e830BB509944d4B98CBb23 |
+| Network | Address |
+| ------- | ------- |
+| Ethereum mainnet | [0x047E0b64743071b897A6177F1796E98b4C3f344E](https://etherscan.io/address/0x047e0b64743071b897a6177f1796e98b4c3f344e) |
+| Testnet (Sepolia) | [0x0f04f8434BaC2e1Db8FCa8A34D3E177B6c7CCAbA](https://sepolia.etherscan.io/address/0x0f04f8434bac2e1db8fca8a34d3e177b6c7ccaba) |
+| Testnet (Goerli) | [0xDb5328c50B166545d1e830BB509944d4B98CBb23](https://goerli.etherscan.io/address/0xDb5328c50B166545d1e830BB509944d4B98CBb23) |
 
 ## Development
 This repository makes use of [Foundry](https://github.com/foundry-rs/foundry) for compilation and dependency management. You can find the installation instructions [here](https://book.getfoundry.sh/getting-started/installation).
