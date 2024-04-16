@@ -11,7 +11,9 @@ contract ZkEVMWrapperDeploy is Script {
         vm.startBroadcast(deployerPrivateKey);
 
         // Deploy ZkEVMWrapper
-        ZkEVMWrapper wrapper = new ZkEVMWrapper(IZkEVMBridge(0xF6BEEeBB578e214CA9E23B0e9683454Ff88Ed2A7));
+        ZkEVMWrapper wrapper = new ZkEVMWrapper(
+            IZkEVMBridge(0x528e26b25a34a4A5d0dbDa1d57D318153d2ED582)
+        );
 
         vm.stopBroadcast();
     }

@@ -23,23 +23,30 @@ contract ZkEVMWrapper {
     }
 
     /// @notice Bridge Ether and ERC20 to zkEVM using traditional approval
+    /// @dev User/UI must be aware of the existing/available networks when choosing the destination network
     /// @param token Address of ERC20 token to deposit
+    /// @param destinationNetwork The destination network on the zkEVM bridge (does not revert on invalid destinationNetwork)
+    /// @param destinationAddress The destination address on the zkEVM bridge
     /// @param amount Amount to deposit
-    /// @param destination The destination address on the zkEVM bridge
-    function deposit(IERC20 token, uint256 amount, address destination) external payable {
+    function deposit(
+        IERC20 token,
+        uint32 destinationNetwork,
+        address destinationAddress,
+        uint256 amount
+    ) external payable {
         token.safeTransferFrom(msg.sender, address(this), amount);
         token.forceApprove(address(_zkEVMBridge), amount);
         _zkEVMBridge.bridgeAsset(
-            1, // destinationNetwork
-            destination,
+            destinationNetwork,
+            destinationAddress,
             amount,
             address(token),
             false, // forceUpdateGlobalExitRoot
             "" // permitData
         );
         _zkEVMBridge.bridgeAsset{value: msg.value}(
-            1, // destinationNetwork
-            destination,
+            destinationNetwork,
+            destinationAddress,
             msg.value,
             address(0),
             true, // forceUpdateGlobalExitRoot
@@ -48,27 +55,43 @@ contract ZkEVMWrapper {
     }
 
     /// @notice Bridge Ether and ERC20 to zkEVM using EIP-2612 permit
+    /// @dev User/UI must be aware of the existing/available networks when choosing the destination network
     /// @param token Address of ERC20 token to deposit
+    /// @param destinationNetwork The destination network on the zkEVM bridge (does not revert on invalid destinationNetwork)
+    /// @param destinationAddress The destination address on the zkEVM bridge
     /// @param amount Amount to deposit
-    /// @param destination The destination address on the zkEVM bridge
-    function deposit(IERC20 token, uint256 amount, address destination, uint256 deadline, uint8 v, bytes32 r, bytes32 s)
-        external
-        payable
-    {
-        IERC20Permit(address(token)).safePermit(msg.sender, address(this), amount, deadline, v, r, s);
+    function deposit(
+        IERC20 token,
+        uint32 destinationNetwork,
+        address destinationAddress,
+        uint256 amount,
+        uint256 deadline,
+        uint8 v,
+        bytes32 r,
+        bytes32 s
+    ) external payable {
+        IERC20Permit(address(token)).safePermit(
+            msg.sender,
+            address(this),
+            amount,
+            deadline,
+            v,
+            r,
+            s
+        );
         token.safeTransferFrom(msg.sender, address(this), amount);
         token.forceApprove(address(_zkEVMBridge), amount);
         _zkEVMBridge.bridgeAsset(
-            1, // destinationNetwork
-            destination,
+            destinationNetwork,
+            destinationAddress,
             amount,
             address(token),
             false, // forceUpdateGlobalExitRoot
             "" // permitData
         );
         _zkEVMBridge.bridgeAsset{value: msg.value}(
-            1, // destinationNetwork
-            destination,
+            destinationNetwork,
+            destinationAddress,
             msg.value,
             address(0),
             true, // forceUpdateGlobalExitRoot
@@ -79,11 +102,13 @@ contract ZkEVMWrapper {
     /// @notice Bridge Ether and ERC20 to zkEVM using DAI permit
     /// @param token Address of ERC20 token to deposit
     /// @param amount Amount to deposit
-    /// @param destination The destination address on the zkEVM bridge
+    /// @param destinationNetwork The destination network on the zkEVM bridge (does not revert on invalid destinationNetwork)
+    /// @param destinationAddress The destination address on the zkEVM bridge
     function deposit(
         IDai token,
         uint256 amount,
-        address destination,
+        uint32 destinationNetwork,
+        address destinationAddress,
         uint256 nonce,
         uint256 expiry,
         bool allowed,
@@ -91,20 +116,29 @@ contract ZkEVMWrapper {
         bytes32 r,
         bytes32 s
     ) external payable {
-        token.permit(msg.sender, address(this), nonce, expiry, allowed, v, r, s);
+        token.permit(
+            msg.sender,
+            address(this),
+            nonce,
+            expiry,
+            allowed,
+            v,
+            r,
+            s
+        );
         token.safeTransferFrom(msg.sender, address(this), amount);
         token.forceApprove(address(_zkEVMBridge), amount);
         _zkEVMBridge.bridgeAsset(
-            1, // destinationNetwork
-            destination,
+            destinationNetwork,
+            destinationAddress,
             amount,
             address(token),
             false, // forceUpdateGlobalExitRoot
             "" // permitData
         );
         _zkEVMBridge.bridgeAsset{value: msg.value}(
-            1, // destinationNetwork
-            destination,
+            destinationNetwork,
+            destinationAddress,
             msg.value,
             address(0),
             true, // forceUpdateGlobalExitRoot
